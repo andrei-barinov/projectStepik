@@ -7,22 +7,7 @@ $(function(){
     });
 });
 
-let theme = {
-    themeType: 'indigo-theme',
-    secondaryColor: '#4ebdd4',
-    update:function () {
-        document.getElementById('edit').style.backgroundColor = this.secondaryColor;
-        $('.content-wrapper')[0].classList.value = `content-wrapper ${this.themeType}`;
-        document.getElementById('nav').classList.value = `nav-wrapper navbar-fixed ${this.themeType}`;
-        $('.menu-btn')[0].childNodes.forEach( el => {
-            if(el.nodeType !== 3){
-                el.style.backgroundColor = this.secondaryColor;
-            }
-        });
-        localStorage.setItem('secondaryColor', this.secondaryColor);
-        localStorage.setItem('themeType', this.themeType);
-    }
-};
+import {theme} from './theme.js';
 
 document.addEventListener('DOMContentLoaded', function () {
     let sColor = localStorage.getItem('secondaryColor');
@@ -32,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
         theme.secondaryColor = sColor;
         theme.themeType = sThemeType;
     }
-    theme.update();
+    theme.coolUpdate();
 
 });
 
@@ -99,7 +84,10 @@ $('.radio-item>label>span').on('click', function () {
 });
 
 $('#save-theme-btn').on('click', function () {
-    theme.themeType = themePreview.themeType;
-    theme.secondaryColor = themePreview.secondaryColor;
-    theme.update();
+    // theme.themeType = themePreview.themeType;
+    // theme.secondaryColor = themePreview.secondaryColor;
+
+    localStorage.secondaryColor = themePreview.secondaryColor;
+    localStorage.themeType = themePreview.themeType;
+    theme.coolUpdate();
 });
