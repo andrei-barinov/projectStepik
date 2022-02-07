@@ -26,7 +26,7 @@ function Personage(pers) {
     </div>`;
 }
 
-function drowPersonages(startIndex = 0, endIndex = 3){
+function drawPersonages(startIndex = 0, endIndex = 3){
     cupPeoples = peoples.slice(startIndex, endIndex);
 
     let HTMLPeoples = cupPeoples.map(el => Personage(el));
@@ -53,5 +53,43 @@ window.onload = async function () {
     nextPeoplesPage = res.next;
     prevPeoplesPage = res.previous;
 
-    drowPersonages();
+    drawPersonages();
 }
+
+let load = async function loadNewPeoplePage(url){
+    let {next, previous, results} = await fetch(url).then(res => res.json());
+
+    nextPeoplesPage = next;
+    prevPeoplesPage = previous;
+
+    peoples = results.map((el, i) => {
+        el.i = i;
+        return el;
+    });
+
+    drawPersonages()
+}
+
+document.getElementById('next').addEventListener("click", () =>{
+   let lastIntCurrentCup = cupPeoples[cupPeoples.length - 1].i;
+
+   if(lastIntCurrentCup !== peoples.length - 1){
+       drawPersonages(lastIntCurrentCup + 1, lastIntCurrentCup + 4)
+   }else {
+       if(nextPeoplesPage !== null){
+            load(nextPeoplesPage);
+       }
+   }
+});
+
+document.getElementById('prev').addEventListener("click", () => {
+    let firstIntCurrentCup = cupPeoples[0].i;
+
+    if(firstIntCurrentCup !== 0){
+        drawPersonages(firstIntCurrentCup - 3, firstIntCurrentCup)
+    }else {
+        if(prevPeoplesPage !== null){
+            load(prevPeoplesPage);
+        }
+    }
+});
