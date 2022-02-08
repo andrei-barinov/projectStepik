@@ -24,22 +24,31 @@
             </ul>
         </div>
 
-        <h5>Привет</h5>
+        <h5>{{header}}</h5>
 
         <div id="search-console">
-            <input type="text" id="search-input" style="color: #595959">
+            <input type="text" id="search-input" style="color: #595959" v-model="request">
         </div>
+
+        <span>{{header}}</span>
 
 
     </div>
-
-
-    <script src="https://unpkg.com/vue"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
 
     <script>
-        let vm = new Vue({
-            //опции нашего приложения
-        })
+        let initHeader = "То что ищешь введи...";
+        let vm  = new Vue({
+            el: "#search",
+            data: {
+                request: initHeader
+            },
+            computed: {
+                header(){
+                    return this.request === '' || this.request === initHeader ? 'Ничего не ищем': `Ищем: ${this.request.toUpperCase()}`;
+                }
+            }
+        });
     </script>
 
 </body>
